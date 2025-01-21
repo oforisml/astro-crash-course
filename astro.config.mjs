@@ -13,5 +13,5 @@ import vercel from '@astrojs/vercel';
 export default defineConfig({
   integrations: [tailwind(), mdx()],
   output: 'server',
-  adapter: netlify()
+  adapter: vercel()
 });
