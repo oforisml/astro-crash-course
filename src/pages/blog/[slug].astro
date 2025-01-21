@@ -4,31 +4,38 @@ import H1 from "../../components/H1.astro";
 import Main from "../../components/Main.astro";
 import Layout from "../../layouts/Layout.astro";
 import { Image } from "astro:assets";
+import { getEntry } from "astro:content";
 
+const { slug } = Astro.params;
+const post = await getEntry("posts", slug as string);
 
-export  const getStaticPaths = async () => {
-    const posts = await getCollection("posts");
-    const paths = posts.map(post => {
-        return {
-            params: {
-                slug: post.slug,
-            },
-            props: {
-                post,
-            }
-        }
-    })
+// export  const getStaticPaths = async () => {
+//     const posts = await getCollection("posts");
+//     const paths = posts.map(post => {
+//         return {
+//             params: {
+//                 slug: post.slug,
+//             },
+//             props: {
+//                 post,
+//             }
+//         }
+//     })
 
-    return paths;
-
-}
+//     return paths;
+// }
 
 type Props = {
     post: CollectionEntry<'posts'>;
 };
 
 
-const {post} = Astro.props;
+// const {post} = Astro.props;
+if(!post)
+    return {
+        status: 404,
+        error: "Not Found",
+    }
 const {Content} = await post.render()
 
 
